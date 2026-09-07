@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>loop.mp3</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.48)),
+                url("https://wallpaperswide.com/download/microsofts_windows_xp_bliss-wallpaper-3554x1999.jpg")
+                center center / cover fixed no-repeat;
+
+            color: #fff;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        main {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 48px 24px;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 980px;
+        }
+
+        /* HEADER */
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 100px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+        }
+
+        .version {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+
+            padding: 7px 10px;
+
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+
+            background: rgba(0, 0, 0, 0.35);
+        }
+
+        /* HERO */
+
+        .hero {
+            position: relative;
+
+            max-width: 760px;
+
+            padding: 52px;
+
+            border: 1px solid rgba(255, 255, 255, 0.35);
+
+            background: rgba(0, 0, 0, 0.62);
+        }
+
+        .hero::before,
+        .hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 22px;
+            height: 22px;
+
+            border: 2px solid #fff;
+        }
+
+        .hero::before {
+            top: -11px;
+            left: -11px;
+        }
+
+        .hero::after {
+            bottom: -11px;
+            right: -11px;
+        }
+
+        .eyebrow {
+            margin-bottom: 22px;
+
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+
+            color: #aaa;
+        }
+
+        h1 {
+            margin: 0;
+
+            font-size: clamp(48px, 8vw, 92px);
+            line-height: 0.9;
+            letter-spacing: -6px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            max-width: 580px;
+
+            margin: 30px 0 0;
+
+            color: #ccc;
+
+            font-size: 18px;
+            line-height: 1.55;
+        }
+
+        .cta {
+            margin-top: 38px;
+
+            width: 190px;
+            height: 50px;
+
+            border: 1px solid #666;
+            border-radius: 0;
+
+            background: #222;
+            color: #777;
+
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+
+            cursor: not-allowed;
+        }
+
+        /* FEATURES */
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            margin-top: 28px;
+
+            border: 1px solid rgba(255, 255, 255, 0.3);
+
+            background: rgba(0, 0, 0, 0.62);
+        }
+
+        .feature {
+            min-height: 105px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            padding: 20px;
+
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature:nth-child(3n) {
+            border-right: 0;
+        }
+
+        .feature:nth-child(n + 4) {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-title {
+            margin-bottom: 8px;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .feature-description {
+            color: #999;
+
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        /* SYMMETRICAL SHAPES */
+
+        .geometry {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            gap: 18px;
+
+            margin: 34px 0;
+        }
+
+        .geometry span {
+            display: block;
+
+            width: 10px;
+            height: 10px;
+
+            background: #fff;
+        }
+
+        .geometry span:nth-child(1),
+        .geometry span:nth-child(5) {
+            width: 6px;
+            height: 6px;
+        }
+
+        .geometry span:nth-child(2),
+        .geometry span:nth-child(4) {
+            width: 14px;
+            height: 14px;
+        }
+
+        .geometry span:nth-child(3) {
+            width: 24px;
+            height: 24px;
+
+            transform: rotate(45deg);
+        }
+
+        /* FOOTER */
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-top: 70px;
+
+            color: #ddd;
+
+            font-size: 12px;
+        }
+
+        .links {
+            display: flex;
+            gap: 22px;
+        }
+
+        .links a {
+            border-bottom: 1px solid transparent;
+
+            color: #fff;
+        }
+
+        .links a:hover {
+            border-bottom-color: #fff;
+        }
+
+        /* COOKIE NOTICE */
+
+        .cookie-notice {
+            position: fixed;
+
+            right: 24px;
+            bottom: 24px;
+
+            width: 220px;
+
+            padding: 14px 16px;
+
+            border: 1px solid rgba(255, 255, 255, 0.35);
+
+            background: rgba(0, 0, 0, 0.78);
+
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .cookie-notice strong {
+            display: block;
+
+            margin-bottom: 3px;
+
+            color: #fff;
+
+            font-size: 12px;
+        }
+
+        .cookie-notice span {
+            color: #888;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+            main {
+                padding: 28px 18px;
+            }
+
+            header {
+                margin-bottom: 55px;
+            }
+
+            .hero {
+                padding: 32px 24px;
+            }
+
+            h1 {
+                letter-spacing: -4px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .feature,
+            .feature:nth-child(3n) {
+                border-right: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .feature:last-child {
+                border-bottom: 0;
+            }
+
+            .feature:nth-child(n + 4) {
+                border-top: 0;
+            }
+
+            footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+
+            .cookie-notice {
+                right: 14px;
+                bottom: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main>
+        <div class="page">
+
+            <header>
+                <div class="logo">
+                    loop.mp3
+                </div>
+
+                <div class="version">
+                    COMING SOON
+                </div>
+            </header>
+
+
+            <section class="hero">
+
+                <div class="eyebrow">
+                    YouTube Music // Reimagined
+                </div>
+
+                <h1>
+                    The dwm of<br>
+                    music players.
+                </h1>
+
+                <p class="subtitle">
+                    A minimal, keyboard-first music player built around
+                    the music instead of everything surrounding it.
+                </p>
+
+                <button class="cta" disabled>
+                    COMING SOON
+                </button>
+
+            </section>
+
+
+            <div class="geometry">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+
+            <section class="features">
+
+                <div class="feature">
+                    <div class="feature-title">
+                        AD FREE
+                    </div>
+
+                    <div class="feature-description">
+                        No advertisements interrupting your music.
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-title">
+                        HUGE CATALOG
+                    </div>
+
+                    <div class="feature-description">
+                        Access the massive YouTube Music catalog.
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-title">
+                        KEYBOARD FIRST
+                    </div>
+
+                    <div class="feature-description">
+                        Control your music without reaching for the mouse.
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-title">
+                        VINYL INTERFACE
+                    </div>
+
+                    <div class="feature-description">
+                        A physical-player inspired interface built for music.
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-title">
+                        NO TELEMETRY
+                    </div>
+
+                    <div class="feature-description">
+                        We don't need to know what you're listening to.
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-title">
+                        LOOP FM
+                    </div>
+
+                    <div class="feature-description">
+                        Tune into curated music channels through Loop FM.
+                    </div>
+                </div>
+
+            </section>
+
+
+            <footer>
+
+                <div>
+                    © 2026 loop.mp3
+                </div>
+
+                <nav class="links">
+                    <a
+                        href="https://x.com/Saaransh_Xd"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        X
+                    </a>
+
+                    <a
+                        href="https://github.com/loop-mp3/loop"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        GitHub
+                    </a>
+
+                    <a
+                        href="https://loop.int.yt"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        loop.mp3
+                    </a>
+                </nav>
+
+            </footer>
+
+        </div>
+    </main>
+
+
+    <div class="cookie-notice">
+        <strong>we doNOT use any cookies</strong>
+        <span>accept or reject</span>
+    </div>
+
+</body>
+</html>
