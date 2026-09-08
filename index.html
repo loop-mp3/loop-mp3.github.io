@@ -903,7 +903,7 @@
             <span class="audio-status" data-audio-status hidden>Looking for audio files in /music…</span>
         </div>
 
-        <audio data-audio-element autoplay loop preload="auto"></audio>
+        <audio data-audio-element autoplay preload="auto"></audio>
     </section>
 
     <script>
@@ -1043,7 +1043,7 @@ document.addEventListener('visibilitychange', () => {
 
             setTrack(tracks[trackIndex]);
             audioElement.volume = Number(audioVolume.value);
-            audioElement.loop = true;
+            audioElement.loop = false;
 
             const startAmbientMusic = () => {
                 audioElement.play().then(() => {
@@ -1068,6 +1068,8 @@ document.addEventListener('visibilitychange', () => {
             });
 
             audioElement.addEventListener("ended", () => {
+                trackIndex = (trackIndex + 1) % tracks.length;
+                setTrack(tracks[trackIndex]);
                 startAmbientMusic();
             });
 
