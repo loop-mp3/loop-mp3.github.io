@@ -907,6 +907,15 @@
     </section>
 
     <script>
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    document.title = "HEY COME THE BACK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+  } else {
+    document.title = "loop.mp3 - the best music player known to mankind";
+  }
+});
+        
+
         const cookieNotice = document.querySelector(".cookie-notice");
         const cookieChoice = localStorage.getItem("loop-cookie-choice");
 
