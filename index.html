@@ -7,6 +7,12 @@
     <title>loop.mp3</title>
 
     <style>
+        @font-face {
+            font-family: "Mojangles";
+            src: url("fonts/mojangles.ttf") format("truetype");
+            font-display: swap;
+        }
+
         * {
             box-sizing: border-box;
         }
@@ -22,15 +28,12 @@
 
             background:
                 linear-gradient(rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.48)),
-                url("https://wink.messengergeek.com/uploads/default/original/3X/e/9/e9b64fe9550c6d4d1ed04d15404faf19d88ad202.jpeg")
+                url("bliss.jpeg")
                 center center / cover fixed no-repeat;
 
             color: #fff;
 
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
+            font-family: "Mojangles", Arial, Helvetica, sans-serif;
         }
 
         a {
@@ -70,15 +73,36 @@
         }
 
         .version {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
             border: 1px solid rgba(255, 255, 255, 0.4);
 
             padding: 7px 10px;
 
-            font-size: 11px;
             font-weight: 700;
             letter-spacing: 0.5px;
 
             background: rgba(0, 0, 0, 0.35);
+        }
+
+        .version a {
+            display: inline-flex;
+            color: #fff;
+            opacity: 0.82;
+            transition: opacity 0.2s ease;
+        }
+
+        .version a:hover,
+        .version a:focus-visible {
+            opacity: 1;
+        }
+
+        .version svg {
+            width: 15px;
+            height: 15px;
+            fill: currentColor;
         }
 
         /* HERO */
@@ -88,9 +112,13 @@
 
             max-width: 760px;
 
-            padding: 52px;
+            font-family: "Mojangles", Arial, Helvetica, sans-serif;
+
+            padding: clamp(34px, 5vw, 56px);
 
             border: 1px solid rgba(255, 255, 255, 0.35);
+            outline: 1px solid rgba(255, 255, 255, 0.16);
+            outline-offset: 7px;
 
             background: rgba(0, 0, 0, 0.62);
         }
@@ -118,11 +146,12 @@
         }
 
         .eyebrow {
-            margin-bottom: 22px;
+            max-width: 620px;
 
+            margin-bottom: 28px;
             font-size: 12px;
             font-weight: 700;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             text-transform: uppercase;
 
             color: #aaa;
@@ -131,31 +160,34 @@
         h1 {
             margin: 0;
 
-            font-size: clamp(48px, 8vw, 92px);
-            line-height: 0.9;
-            letter-spacing: -6px;
+            max-width: 700px;
+
+            font-size: clamp(42px, 6vw, 76px);
+            line-height: 1.08;
+            letter-spacing: -1px;
             font-weight: 800;
         }
 
         .subtitle {
             max-width: 580px;
 
-            margin: 30px 0 0;
-
+            margin: 34px 0 0;
             color: #ccc;
 
-            font-size: 18px;
-            line-height: 1.55;
+            font-size: 16px;
+            line-height: 1.7;
         }
 
         .cta {
-            margin-top: 38px;
+            margin-top: 34px;
 
             width: 190px;
             height: 50px;
 
-            border: 1px solid #666;
+            border: 2px solid #777;
             border-radius: 0;
+            outline: 1px solid rgba(255, 255, 255, 0.14);
+            outline-offset: 4px;
 
             background: #222;
             color: #777;
@@ -314,7 +346,256 @@
         }
 
         .cookie-notice span {
+            display: block;
+
+            margin-bottom: 12px;
+
             color: #888;
+        }
+
+        .cookie-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .cookie-actions button {
+            flex: 1;
+
+            border: 1px solid rgba(255, 255, 255, 0.45);
+
+            padding: 6px 8px;
+
+            background: transparent;
+            color: #fff;
+
+            font: inherit;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+
+            cursor: pointer;
+        }
+
+        .cookie-actions button:hover,
+        .cookie-actions button:focus-visible {
+            background: #fff;
+            color: #000;
+            outline: none;
+        }
+
+        /* AMBIENT PLAYER */
+
+        .audio-toast {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 10;
+
+            width: min(230px, calc(100vw - 48px));
+
+            border: 1px solid rgba(255, 255, 255, 0.35);
+
+            background: rgba(0, 0, 0, 0.78);
+
+            font-size: 11px;
+            line-height: 1.5;
+            animation: audio-toast-in 0.35s ease-out both;
+        }
+
+        .audio-toast[hidden] {
+            display: none;
+        }
+
+        .audio-toast-header,
+        .audio-brand,
+        .audio-summary,
+        .audio-controls,
+        .audio-volume {
+            display: flex;
+            align-items: center;
+        }
+
+        .audio-toast-header {
+            justify-content: space-between;
+            gap: 8px;
+            padding: 8px 10px;
+        }
+
+        .audio-brand {
+            min-width: 0;
+            gap: 8px;
+        }
+
+        .audio-note-logo {
+            flex: 0 0 auto;
+            width: 16px;
+            height: 16px;
+
+            background: var(--note-color, #55ffff);
+            image-rendering: pixelated;
+            -webkit-mask: url("assets/minecraft-note.png") center / contain no-repeat;
+            mask: url("assets/minecraft-note.png") center / contain no-repeat;
+        }
+
+        .audio-note-logo-control {
+            width: 12px;
+            height: 12px;
+        }
+
+        .audio-summary {
+            width: 100%;
+            justify-content: space-between;
+            gap: 10px;
+
+            border: 0;
+            padding: 0;
+
+            background: transparent;
+            color: inherit;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .audio-summary:hover,
+        .audio-summary:focus-visible {
+            background: rgba(255, 255, 255, 0.08);
+            outline: none;
+        }
+
+        .audio-summary-text {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .audio-summary-icon {
+            flex: 0 0 auto;
+
+            color: #888;
+            font-size: 15px;
+            line-height: 1;
+        }
+
+        .audio-toast.is-expanded .audio-summary-icon {
+            transform: rotate(45deg);
+        }
+
+        .audio-title,
+        .audio-artist {
+            display: inline;
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .audio-artist {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .audio-artist::after {
+            content: " — ";
+            color: #777;
+            font-weight: 400;
+        }
+
+        .audio-title {
+            color: #aaa;
+        }
+
+        .audio-controls {
+            gap: 10px;
+            margin: 0 12px 12px;
+            padding-top: 10px;
+            flex-wrap: wrap;
+
+            border-top: 1px solid rgba(255, 255, 255, 0.16);
+        }
+
+        .audio-close {
+            flex: 0 0 auto;
+
+            border: 0;
+            padding: 0 2px;
+
+            background: transparent;
+            color: #888;
+
+            font: inherit;
+            font-size: 16px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .audio-close:hover,
+        .audio-close:focus-visible {
+            color: #fff;
+            outline: none;
+        }
+
+        .audio-controls[hidden] {
+            display: none;
+        }
+
+        .audio-volume {
+            flex: 1;
+            justify-content: space-between;
+            color: #888;
+            font-size: 10px;
+        }
+
+        .audio-volume input {
+            width: 80px;
+            accent-color: #fff;
+            cursor: pointer;
+        }
+
+        .audio-mute {
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            padding: 5px 7px;
+
+            background: transparent;
+            color: #fff;
+
+            font: inherit;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .audio-mute:hover,
+        .audio-mute:focus-visible {
+            background: #fff;
+            color: #000;
+            outline: none;
+        }
+
+        .audio-status {
+            flex-basis: 100%;
+            margin: 0 12px 12px;
+            color: #777;
+            font-size: 10px;
+        }
+
+        .audio-status[hidden] {
+            display: none;
+        }
+
+        @keyframes audio-toast-in {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* MOBILE */
@@ -333,7 +614,8 @@
             }
 
             h1 {
-                letter-spacing: -4px;
+                font-size: clamp(34px, 12vw, 54px);
+                letter-spacing: -1px;
             }
 
             .features {
@@ -364,7 +646,17 @@
                 right: 14px;
                 bottom: 14px;
             }
+
+            .audio-toast {
+                top: 14px;
+                right: 14px;
+            }
         }
+	@keyframes rainbow {
+    	to {
+        	background-position: 200% 50%;
+    	}
+	}
     </style>
 </head>
 
@@ -378,9 +670,44 @@
                     loop.mp3
                 </div>
 
-                <div class="version">
-                    ALPHA
-                </div>
+                <nav class="version" aria-label="External links">
+                    <a
+                        href="https://mizucode.qzz.io"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Company"
+                        title="Company"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M6.25 12a.75.75 0 0 0 0 1.5h.5a.75.75 0 0 0 0-1.5h-.5ZM5.5 9.25a.75.75 0 0 1 .75-.75h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1-.75-.75ZM6.25 5a.75.75 0 0 0 0 1.5h.5a.75.75 0 0 0 0-1.5h-.5ZM9 12.75a.75.75 0 0 1 .75-.75h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1-.75-.75Zm.75-4.25a.75.75 0 0 0 0 1.5h.5a.75.75 0 0 0 0-1.5h-.5ZM9 5.75A.75.75 0 0 1 9.75 5h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 9 5.75ZM13.25 12a.75.75 0 0 0 0 1.5h.5a.75.75 0 0 0 0-1.5h-.5Zm-.75-2.75a.75.75 0 0 1 .75-.75h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1-.75-.75ZM13.25 5a.75.75 0 0 0 0 1.5h.5a.75.75 0 0 0 0-1.5h-.5Z" />
+                            <path d="M2 20V3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v17c0 .173-.022.34-.063.5H20a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.2-.4l-.5-.375a.75.75 0 0 1 .9-1.2l.5.375c.504.378.8.97.8 1.6v8a2 2 0 0 1-2 2h-3.562a.767.767 0 0 1-.166-.018c-.089.012-.18.018-.272.018h-3.75a.75.75 0 0 1-.75-.75V19h-3v2.25a.75.75 0 0 1-.75.75H4a2 2 0 0 1-2-2Zm2 .5h3v-2.25a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v2.25h3a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H4a.5.5 0 0 0-.5.5v17a.5.5 0 0 0 .5.5Z" />
+                        </svg>
+                    </a>
+
+                    <a
+                        href="https://x.com/SaaranshXd"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="X"
+                        title="X"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817-5.964 6.817H1.684l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" />
+                        </svg>
+                    </a>
+
+                    <a
+                        href="https://github.com/loop-mp3/loop"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="GitHub"
+                        title="GitHub"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.084-.729.084-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                        </svg>
+                    </a>
+                </nav>
             </header>
 
 
@@ -391,7 +718,26 @@
                 </div>
 
                 <h1>
-                    The dwm of<br>
+                    The <span style="
+    background: linear-gradient(
+        90deg,
+        red,
+        orange,
+        yellow,
+        lime,
+        cyan,
+        blue,
+        violet,
+        red
+    );
+    background-size: 200% auto;
+    background-position: 0% 50%;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: rainbow 3s linear infinite;
+">dwm</span>
+ of<br>
                     music players.
                 </h1>
 
@@ -450,11 +796,11 @@
 
                 <div class="feature">
                     <div class="feature-title">
-                        VINYL INTERFACE
+                        MADE BY SAARANSH
                     </div>
 
                     <div class="feature-description">
-                        A physical-player inspired interface built for music.
+                        Isn't that a fucking enough of a reason to use it? I think so.
                     </div>
                 </div>
 
@@ -522,7 +868,231 @@
     <div class="cookie-notice">
         <strong>we doNOT use any cookies</strong>
         <span>accept or reject</span>
+
+        <div class="cookie-actions">
+            <button type="button" data-cookie-choice="accept">Accept</button>
+            <button type="button" data-cookie-choice="reject">Reject</button>
+        </div>
     </div>
+
+    <section class="audio-toast" hidden aria-live="polite" aria-label="Ambient music player">
+        <div class="audio-toast-header">
+            <span class="audio-note-logo" aria-hidden="true"></span>
+
+            <button class="audio-summary" type="button" aria-expanded="false" aria-controls="audio-details">
+                <span class="audio-summary-text">
+                    <span class="audio-artist" data-audio-artist>Discovering /music</span>
+                    <span class="audio-title" data-audio-title>Ambient music</span>
+                </span>
+                <span class="audio-summary-icon" aria-hidden="true">+</span>
+            </button>
+
+            <button class="audio-close" type="button" aria-label="Close music notification" title="Close">×</button>
+        </div>
+
+        <div class="audio-controls" id="audio-details" hidden>
+            <span class="audio-note-logo audio-note-logo-control" aria-hidden="true"></span>
+
+            <label class="audio-volume">
+                <span>VOL</span>
+                <input data-audio-volume type="range" min="0" max="1" step="0.01" value="0.35" aria-label="Ambient music volume">
+            </label>
+
+            <button class="audio-mute" type="button" data-audio-mute aria-pressed="false">Mute</button>
+
+            <span class="audio-status" data-audio-status hidden>Looking for audio files in /music…</span>
+        </div>
+
+        <audio data-audio-element autoplay loop preload="auto"></audio>
+    </section>
+
+    <script>
+        const cookieNotice = document.querySelector(".cookie-notice");
+        const cookieChoice = localStorage.getItem("loop-cookie-choice");
+
+        if (cookieChoice) {
+            cookieNotice.hidden = true;
+        }
+
+        cookieNotice.querySelectorAll("[data-cookie-choice]").forEach((button) => {
+            button.addEventListener("click", () => {
+                localStorage.setItem("loop-cookie-choice", button.dataset.cookieChoice);
+                cookieNotice.hidden = true;
+            });
+        });
+
+        const audioToast = document.querySelector(".audio-toast");
+        const audioElement = audioToast.querySelector("[data-audio-element]");
+        const audioTitle = audioToast.querySelector("[data-audio-title]");
+        const audioArtist = audioToast.querySelector("[data-audio-artist]");
+        const audioStatus = audioToast.querySelector("[data-audio-status]");
+        const audioVolume = audioToast.querySelector("[data-audio-volume]");
+        const audioMute = audioToast.querySelector("[data-audio-mute]");
+        const audioSummary = audioToast.querySelector(".audio-summary");
+        const audioDetails = audioToast.querySelector(".audio-controls");
+        const audioClose = audioToast.querySelector(".audio-close");
+        const audioExtensions = /\.(aac|flac|m4a|mp3|mp4|oga|ogg|wav|webm)$/i;
+        const formatAudioLabel = (label) => label
+            .replace(/[\-_+–—]+/g, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+
+        const decodeAudioName = (fileName) => {
+            const withoutExtension = fileName.replace(audioExtensions, "");
+            const separator = withoutExtension.indexOf("_");
+
+            if (separator < 1 || separator === withoutExtension.length - 1) {
+                return null;
+            }
+
+            return {
+                artist: formatAudioLabel(withoutExtension.slice(0, separator)),
+                title: formatAudioLabel(withoutExtension.slice(separator + 1)),
+            };
+        };
+
+        const readMusicListing = async () => {
+            try {
+                const manifestResponse = await fetch("/music/manifest.json", { cache: "no-store" });
+
+                if (manifestResponse.ok) {
+                    const manifest = await manifestResponse.json();
+                    return Array.isArray(manifest) ? manifest : manifest.files || [];
+                }
+            } catch (error) {
+                // Fall through to directory-listing discovery.
+            }
+
+            try {
+                const directoryResponse = await fetch("/music/", { cache: "no-store" });
+
+                if (!directoryResponse.ok) {
+                    return [];
+                }
+
+                const directory = await directoryResponse.text();
+                const documentFragment = new DOMParser().parseFromString(directory, "text/html");
+
+                return [...documentFragment.querySelectorAll("a[href]")]
+                    .map((link) => link.getAttribute("href"))
+                    .filter((href) => href && audioExtensions.test(href))
+                    .map((href) => decodeURIComponent(href.split("/").pop()));
+            } catch (error) {
+                return [];
+            }
+        };
+
+        const setupAmbientMusic = async () => {
+            const discoveredFiles = await readMusicListing();
+            const tracks = discoveredFiles
+                .map((file) => {
+                    const fileName = typeof file === "string" ? file : file.file || file.src;
+                    const normalisedFileName = fileName
+                        ? decodeURIComponent(String(fileName)).split("/").pop()
+                        : null;
+                    const metadata = normalisedFileName && decodeAudioName(normalisedFileName);
+
+                    return metadata && normalisedFileName
+                        ? { ...metadata, fileName: normalisedFileName }
+                        : null;
+                })
+                .filter(Boolean);
+
+            audioToast.hidden = false;
+            audioToast.setAttribute("aria-hidden", "false");
+
+            audioSummary.addEventListener("click", () => {
+                const isExpanded = audioSummary.getAttribute("aria-expanded") === "true";
+                audioSummary.setAttribute("aria-expanded", String(!isExpanded));
+                audioDetails.hidden = isExpanded;
+                audioToast.classList.toggle("is-expanded", !isExpanded);
+            });
+
+            audioClose.addEventListener("click", () => {
+                audioToast.hidden = true;
+                audioToast.setAttribute("aria-hidden", "true");
+            });
+
+            if (!tracks.length) {
+                audioTitle.textContent = "No ambient tracks yet";
+                audioArtist.textContent = "Add {artist}_{trackname}.wav to /music";
+                audioStatus.textContent = "No supported audio files found in /music.";
+                audioStatus.hidden = false;
+                audioSummary.disabled = true;
+                audioVolume.disabled = true;
+                audioMute.disabled = true;
+                return;
+            }
+
+            let trackIndex = Math.floor(Math.random() * tracks.length);
+            const setTrack = (track) => {
+                audioTitle.textContent = track.title;
+                audioArtist.textContent = track.artist;
+                audioStatus.textContent = "Playing softly in the background.";
+                audioElement.src = `/music/${encodeURIComponent(track.fileName)}`;
+            };
+
+            setTrack(tracks[trackIndex]);
+            audioElement.volume = Number(audioVolume.value);
+            audioElement.loop = true;
+
+            const startAmbientMusic = () => {
+                audioElement.play().then(() => {
+                    audioStatus.textContent = "Playing softly in the background.";
+                }).catch(() => {
+                    audioStatus.textContent = "Tap anywhere to start the ambient track.";
+                });
+            };
+
+            const startAfterInteraction = () => {
+                startAmbientMusic();
+                document.removeEventListener("pointerdown", startAfterInteraction);
+                document.removeEventListener("keydown", startAfterInteraction);
+            };
+
+            startAmbientMusic();
+            document.addEventListener("pointerdown", startAfterInteraction);
+            document.addEventListener("keydown", startAfterInteraction);
+
+            audioElement.addEventListener("play", () => {
+                audioStatus.textContent = "Playing softly in the background.";
+            });
+
+            audioElement.addEventListener("ended", () => {
+                startAmbientMusic();
+            });
+
+            audioVolume.addEventListener("input", () => {
+                audioElement.volume = Number(audioVolume.value);
+                audioElement.muted = false;
+                audioMute.textContent = "Mute";
+                audioMute.setAttribute("aria-pressed", "false");
+            });
+
+            audioMute.addEventListener("click", () => {
+                audioElement.muted = !audioElement.muted;
+                audioMute.textContent = audioElement.muted ? "Unmute" : "Mute";
+                audioMute.setAttribute("aria-pressed", String(audioElement.muted));
+            });
+        };
+
+        const noteColors = [
+            "#55ffff",
+            "#55ff55",
+            "#ffff55",
+            "#ff55ff",
+            "#ff5555",
+            "#5555ff",
+            "#ffffff",
+        ];
+        const randomNoteColor = noteColors[Math.floor(Math.random() * noteColors.length)];
+
+        audioToast.querySelectorAll(".audio-note-logo").forEach((logo) => {
+            logo.style.setProperty("--note-color", randomNoteColor);
+        });
+
+        window.setTimeout(setupAmbientMusic, 900);
+    </script>
 
 </body>
 </html>
