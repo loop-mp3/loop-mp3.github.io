@@ -1044,30 +1044,18 @@ document.addEventListener('visibilitychange', () => {
             setTrack(tracks[trackIndex]);
             audioElement.volume = Number(audioVolume.value);
             audioElement.loop = false;
-            let autoplayMuted = false;
             let userMuted = false;
 
             const startAmbientMusic = () => {
                 return audioElement.play().then(() => {
                     audioStatus.textContent = "Playing softly in the background.";
                 }).catch(() => {
-                    // Browsers reject audible autoplay. Start the track silently so
-                    // it is already running, then enable sound on the first gesture.
-                    audioElement.muted = true;
-                    autoplayMuted = true;
-                    return audioElement.play().then(() => {
-                        audioStatus.textContent = "Ambient track ready — tap anywhere to enable sound.";
-                    }).catch(() => {
-                        audioStatus.textContent = "Tap anywhere to start the ambient track.";
-                    });
+                    audioStatus.textContent = "Tap anywhere to start the ambient track.";
                 });
             };
 
             const startAfterInteraction = () => {
-                if (autoplayMuted && !userMuted) {
-                    audioElement.muted = false;
-                    autoplayMuted = false;
-                }
+                audioElement.muted = userMuted;
                 startAmbientMusic();
                 document.removeEventListener("pointerdown", startAfterInteraction);
                 document.removeEventListener("keydown", startAfterInteraction);
@@ -1090,6 +1078,7 @@ document.addEventListener('visibilitychange', () => {
             audioVolume.addEventListener("input", () => {
                 audioElement.volume = Number(audioVolume.value);
                 audioElement.muted = false;
+                userMuted = false;
                 audioMute.textContent = "Mute";
                 audioMute.setAttribute("aria-pressed", "false");
             });
@@ -1097,7 +1086,6 @@ document.addEventListener('visibilitychange', () => {
             audioMute.addEventListener("click", () => {
                 audioElement.muted = !audioElement.muted;
                 userMuted = audioElement.muted;
-                autoplayMuted = false;
                 audioMute.textContent = audioElement.muted ? "Unmute" : "Mute";
                 audioMute.setAttribute("aria-pressed", String(audioElement.muted));
             });
