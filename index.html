@@ -1044,16 +1044,30 @@ document.addEventListener('visibilitychange', () => {
             setTrack(tracks[trackIndex]);
             audioElement.volume = Number(audioVolume.value);
             audioElement.loop = false;
+            let autoplayMuted = false;
+            let userMuted = false;
 
             const startAmbientMusic = () => {
-                audioElement.play().then(() => {
+                return audioElement.play().then(() => {
                     audioStatus.textContent = "Playing softly in the background.";
                 }).catch(() => {
-                    audioStatus.textContent = "Tap anywhere to start the ambient track.";
+                    // Browsers reject audible autoplay. Start the track silently so
+                    // it is already running, then enable sound on the first gesture.
+                    audioElement.muted = true;
+                    autoplayMuted = true;
+                    return audioElement.play().then(() => {
+                        audioStatus.textContent = "Ambient track ready — tap anywhere to enable sound.";
+                    }).catch(() => {
+                        audioStatus.textContent = "Tap anywhere to start the ambient track.";
+                    });
                 });
             };
 
             const startAfterInteraction = () => {
+                if (autoplayMuted && !userMuted) {
+                    audioElement.muted = false;
+                    autoplayMuted = false;
+                }
                 startAmbientMusic();
                 document.removeEventListener("pointerdown", startAfterInteraction);
                 document.removeEventListener("keydown", startAfterInteraction);
@@ -1082,6 +1096,8 @@ document.addEventListener('visibilitychange', () => {
 
             audioMute.addEventListener("click", () => {
                 audioElement.muted = !audioElement.muted;
+                userMuted = audioElement.muted;
+                autoplayMuted = false;
                 audioMute.textContent = audioElement.muted ? "Unmute" : "Mute";
                 audioMute.setAttribute("aria-pressed", String(audioElement.muted));
             });
@@ -1102,7 +1118,7 @@ document.addEventListener('visibilitychange', () => {
             logo.style.setProperty("--note-color", randomNoteColor);
         });
 
-        window.setTimeout(setupAmbientMusic, 900);
+        setupAmbientMusic();
     </script>
 
 </body>
