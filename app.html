@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>loop.mp3 | installer</title>
+
+	<style>
+		@font-face {
+			font-family: "Mojangles";
+			src: url("fonts/mojangles.ttf") format("truetype");
+			font-display: swap;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		html,
+		body {
+			margin: 0;
+			min-height: 100%;
+		}
+
+		body {
+			min-height: 100vh;
+			background:
+				linear-gradient(rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.48)),
+				url("bliss.jpeg") center center / cover fixed no-repeat;
+			color: #fff;
+			font-family: "Mojangles", Arial, Helvetica, sans-serif;
+		}
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		main {
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 48px 24px;
+		}
+
+		.page {
+			width: 100%;
+			max-width: 980px;
+		}
+
+		header,
+		footer {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		header {
+			margin-bottom: 76px;
+		}
+
+		.logo {
+			font-size: 20px;
+			font-weight: 800;
+			letter-spacing: -0.8px;
+		}
+
+		.back-link,
+		.release-link {
+			border: 1px solid rgba(255, 255, 255, 0.4);
+			padding: 7px 10px;
+			background: rgba(0, 0, 0, 0.35);
+			font-size: 11px;
+			font-weight: 700;
+			letter-spacing: 0.5px;
+			text-transform: uppercase;
+			transition: background 0.2s ease, color 0.2s ease;
+		}
+
+		.back-link:hover,
+		.back-link:focus-visible,
+		.release-link:hover,
+		.release-link:focus-visible {
+			background: #fff;
+			color: #000;
+			outline: none;
+		}
+
+		.hero {
+			position: relative;
+			padding: clamp(32px, 5vw, 56px);
+			border: 1px solid rgba(255, 255, 255, 0.35);
+			outline: 1px solid rgba(255, 255, 255, 0.16);
+			outline-offset: 7px;
+			background: rgba(0, 0, 0, 0.62);
+		}
+
+		.hero::before,
+		.hero::after {
+			content: "";
+			position: absolute;
+			width: 22px;
+			height: 22px;
+			border: 2px solid #fff;
+		}
+
+		.hero::before {
+			top: -11px;
+			left: -11px;
+		}
+
+		.hero::after {
+			right: -11px;
+			bottom: -11px;
+		}
+
+		.eyebrow {
+			margin-bottom: 24px;
+			color: #aaa;
+			font-size: 12px;
+			font-weight: 700;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+		}
+
+		h1 {
+			max-width: 700px;
+			margin: 0;
+			font-size: clamp(42px, 6vw, 76px);
+			line-height: 1.08;
+			letter-spacing: -1px;
+		}
+
+		.subtitle {
+			max-width: 580px;
+			margin: 28px 0 0;
+			color: #ccc;
+			font-size: 16px;
+			line-height: 1.7;
+		}
+
+		.geometry {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 18px;
+			margin: 34px 0;
+		}
+
+		.geometry span {
+			display: block;
+			width: 10px;
+			height: 10px;
+			background: #fff;
+		}
+
+		.geometry span:nth-child(1),
+		.geometry span:nth-child(5) {
+			width: 6px;
+			height: 6px;
+		}
+
+		.geometry span:nth-child(2),
+		.geometry span:nth-child(4) {
+			width: 14px;
+			height: 14px;
+		}
+
+		.geometry span:nth-child(3) {
+			width: 24px;
+			height: 24px;
+			transform: rotate(45deg);
+		}
+
+		.installers {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			border: 1px solid rgba(255, 255, 255, 0.3);
+			background: rgba(0, 0, 0, 0.62);
+		}
+
+		.installer {
+			min-height: 190px;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			padding: 22px;
+			border-right: 1px solid rgba(255, 255, 255, 0.2);
+		}
+
+		.installer:last-child {
+			border-right: 0;
+		}
+
+		.installer-platform {
+			margin-bottom: 10px;
+			font-size: 18px;
+			font-weight: 800;
+		}
+
+		.installer-description {
+			min-height: 38px;
+			color: #999;
+			font-size: 12px;
+			line-height: 1.5;
+		}
+
+		.installer-action {
+			display: inline-block;
+			align-self: flex-start;
+			margin-top: 22px;
+			border: 2px solid #fff;
+			padding: 10px 13px;
+			background: #fff;
+			color: #000;
+			font-size: 11px;
+			font-weight: 800;
+			letter-spacing: 0.5px;
+			text-transform: uppercase;
+			transition: background 0.2s ease, color 0.2s ease;
+		}
+
+		.installer-action:hover,
+		.installer-action:focus-visible {
+			background: transparent;
+			color: #fff;
+			outline: none;
+		}
+
+		.installer-action.is-disabled {
+			border-color: #555;
+			background: #222;
+			color: #777;
+			cursor: not-allowed;
+		}
+
+		footer {
+			margin-top: 70px;
+			color: #ddd;
+			font-size: 12px;
+		}
+
+		.release-link {
+			border-color: transparent;
+			padding-right: 0;
+			padding-left: 0;
+			background: transparent;
+		}
+
+		@media (max-width: 700px) {
+			main {
+				padding: 28px 18px;
+			}
+
+			header {
+				margin-bottom: 55px;
+			}
+
+			.installers {
+				grid-template-columns: 1fr;
+			}
+
+			.installer,
+			.installer:last-child {
+				min-height: 0;
+				border-right: 0;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+			}
+
+			.installer:last-child {
+				border-bottom: 0;
+			}
+
+			footer {
+				align-items: flex-start;
+				flex-direction: column;
+				gap: 18px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<main>
+		<div class="page">
+			<header>
+				<div class="logo">loop.mp3</div>
+				<a class="back-link" href="index.html">back to home</a>
+			</header>
+
+			<section class="hero">
+				<div class="eyebrow">DESKTOP INSTALLER</div>
+				<h1>Put the music<br>back in <span style="color: #aaa;">control.</span></h1>
+				<p class="subtitle">
+					Download loop.mp3 for your desktop and keep a focused music player
+					close at hand, without the clutter.
+				</p>
+			</section>
+
+			<div class="geometry" aria-hidden="true">
+				<span></span><span></span><span></span><span></span><span></span>
+			</div>
+
+			<section class="installers" aria-label="Available installers">
+				<article class="installer">
+					<div>
+						<div class="installer-platform">WINDOWS</div>
+						<div class="installer-description">The desktop installer is available in the latest release.</div>
+					</div>
+					<a class="installer-action" href="https://github.com/loop-mp3/loop/releases/latest" target="_blank" rel="noopener noreferrer">Get installer</a>
+				</article>
+
+				<article class="installer">
+					<div>
+						<div class="installer-platform">LINUX</div>
+						<div class="installer-description">A native Linux build is being tuned for release.</div>
+					</div>
+					<span class="installer-action is-disabled" aria-label="Linux installer coming soon">Coming soon</span>
+				</article>
+
+				<article class="installer">
+					<div>
+						<div class="installer-platform">MACOS</div>
+						<div class="installer-description">The macOS build is on the way.</div>
+					</div>
+					<span class="installer-action is-disabled" aria-label="macOS installer coming soon">Coming soon</span>
+				</article>
+			</section>
+
+			<footer>
+				<div>© 2026 loop.mp3</div>
+				<a class="release-link" href="https://github.com/loop-mp3/loop/releases/latest" target="_blank" rel="noopener noreferrer">view GitHub releases</a>
+			</footer>
+		</div>
+	</main>
+</body>
+</html>
