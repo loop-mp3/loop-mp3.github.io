@@ -190,13 +190,25 @@
             outline-offset: 4px;
 
             background: #222;
-            color: #777;
+            color: #fff;
 
             font-size: 13px;
             font-weight: 800;
             letter-spacing: 0.5px;
 
-            cursor: not-allowed;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .cta:hover,
+        .cta:focus-visible {
+            background: #fff;
+            color: #000;
+            outline: 1px solid rgba(255, 255, 255, 0.14);
+            outline-offset: 4px;
         }
 
         /* FEATURES */
@@ -746,9 +758,9 @@
                     the music instead of everything surrounding it.
                 </p>
 
-                <button class="cta" disabled>
-                    COMING SOON
-                </button>
+                <a class="cta" href="app.html">
+                    GET THE INSTALLER
+                </a>
 
             </section>
 
