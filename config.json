@@ -1,6 +1,6 @@
 {
   "server_url": "https://loop.mizucode.qzz.io",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "is_update_required": 0,
-  "update_notice": "sorry this is a false update note it would be fixed next update"
+  "update_notice": "v1.1 has several bug fixes and new features"
 }
