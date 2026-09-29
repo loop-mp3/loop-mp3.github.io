@@ -1,6 +1,6 @@
 {
   "server_url": "https://loop.mizucode.qzz.io",
-  "version": "1.2.0",
-  "is_update_required": 0,
-  "update_notice": "New loop Update is avalible with many fixes and cross compatiblity"
+  "version": "1.4.0",
+  "is_update_required": 1,
+  "update_notice": "New loop update has been released with fixes for the new player bar and a miniplayer"
 }
